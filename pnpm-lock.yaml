@@ -6,6 +6,7 @@ specifiers:
   '@vitejs/plugin-vue': ^4.1.0
   axios: ^1.4.0
   element-plus: ^2.3.4
+  pinia: ^2.0.36
   sass: ^1.62.1
   typescript: ^5.0.2
   unplugin-auto-import: ^0.15.3
@@ -20,6 +21,7 @@ dependencies:
   '@types/node': registry.npmmirror.com/@types/node/20.1.2
   axios: registry.npmmirror.com/axios/1.4.0
   element-plus: registry.npmmirror.com/element-plus/2.3.4_vue@3.2.47
+  pinia: registry.npmmirror.com/pinia/2.0.36_dtjfskxukdxv24psui2m5c75zy
   sass: registry.npmmirror.com/sass/1.62.1
   vue: registry.npmmirror.com/vue/3.2.47
   vue-router: registry.npmmirror.com/vue-router/4.1.6_vue@3.2.47
@@ -1236,6 +1238,27 @@ packages:
     version: 2.3.1
     engines: {node: '>=8.6'}
 
+  registry.npmmirror.com/pinia/2.0.36_dtjfskxukdxv24psui2m5c75zy:
+    resolution: {integrity: sha512-4UKApwjlmJH+VuHKgA+zQMddcCb3ezYnyewQ9NVrsDqZ/j9dMv5+rh+1r48whKNdpFkZAWVxhBp5ewYaYX9JcQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinia/-/pinia-2.0.36.tgz}
+    id: registry.npmmirror.com/pinia/2.0.36
+    name: pinia
+    version: 2.0.36
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.5.0
+      typescript: registry.npmmirror.com/typescript/5.0.4
+      vue: registry.npmmirror.com/vue/3.2.47
+      vue-demi: registry.npmmirror.com/vue-demi/0.14.1_vue@3.2.47
+    dev: false
+
   registry.npmmirror.com/pkg-types/1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pkg-types/-/pkg-types-1.0.3.tgz}
     name: pkg-types
@@ -1392,7 +1415,6 @@ packages:
     version: 5.0.4
     engines: {node: '>=12.20'}
     hasBin: true
-    dev: true
 
   registry.npmmirror.com/ufo/1.1.2:
     resolution: {integrity: sha512-TrY6DsjTQQgyS3E3dBaOXf0TpPD8u9FVrVYmKVegJuFw51n/YB9XPt+U6ydzFG5ZIN7+DIjPbNmXoBj9esYhgQ==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ufo/-/ufo-1.1.2.tgz}
