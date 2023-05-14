@@ -1,13 +1,9 @@
-import { type RouteRecordRaw, createWebHashHistory, createRouter } from "vue-router"
+import { type RouteRecordRaw, createRouter, createWebHashHistory, createWebHistory } from "vue-router"
 
-const Layout = () => import('@/layout/index.vue')
+const Layout = () => import("@/layout/index.vue")
 
-// 常驻路由
-export const routes: RouteRecordRaw[] = [
-  {
-    path: "/",
-    redirect: '/login'
-  },
+/** 常驻路由 */
+export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/login",
     component: () => import("@/pages/login/index.vue"),
@@ -16,30 +12,40 @@ export const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: "/404",
-    component: () => import("@/pages/errorpage/404.vue"),
-  },
-  {
-    path: "/layout",
-    component: Layout
-  },
+    path: "/",
+    component: Layout,
+    redirect: "/dashboard",
+    children: [
+      {
+        path: "dashboard",
+        component: () => import("@/pages/dashboard/index.vue"),
+        name: "Dashboard",
+        meta: {
+          title: "首页",
+          svgIcon: "dashboard",
+          affix: true
+        }
+      }
+    ]
+  }
 ]
 
 /**
  * 动态路由
  * 用来放置有权限 (Roles 属性) 的路由
  * 必须带有 Name 属性
- * 动态路由可以登录时后端返回路由表
  */
 export const asyncRoutes: RouteRecordRaw[] = [
   {
     path: "/permission",
     component: Layout,
+    redirect: "/permission/page",
     name: "Permission",
     meta: {
       title: "权限管理",
-      icon: "lock",
-      roles: ['admin', 'editor'],// 可以在根路由中设置角色
+      svgIcon: "lock",
+      roles: ["admin", "editor"], // 可以在根路由中设置角色
+      alwaysShow: true // 将始终显示根菜单
     },
     children: [
       {
@@ -48,21 +54,28 @@ export const asyncRoutes: RouteRecordRaw[] = [
         name: "PagePermission",
         meta: {
           title: "页面权限",
-          roles: ['admin']
+          roles: ["admin"] // 或者在子导航中设置角色
         }
-      }
+      },
     ]
   },
   {
     path: "/:pathMatch(.*)*", // Must put the 'ErrorPage' route at the end, 必须将 'ErrorPage' 路由放在最后
     redirect: "/404",
+    name: "ErrorPage",
+    meta: {
+      hidden: true
+    }
   }
 ]
+
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes,
-  // 刷新时，滚动条位置还原
-  scrollBehavior: () => ({ left: 0, top: 0 }),
+  history:
+    import.meta.env.VITE_ROUTER_HISTORY === "hash"
+      ? createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH)
+      : createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
+  routes: constantRoutes
 })
+
 
 export default router

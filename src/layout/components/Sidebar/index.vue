@@ -1,6 +1,31 @@
+<script lang="ts" setup>
+import { computed } from "vue"
+import { useRoute } from "vue-router"
+import { useAppStore } from "@/store/modules/app"
+import { usePermissionStore } from "@/store/modules/permission"
+import SidebarItem from "./SidebarItem.vue"
+import SidebarLogo from "./SidebarLogo.vue"
+
+const route = useRoute()
+const appStore = useAppStore()
+const permissionStore = usePermissionStore()
+
+const activeMenu = computed(() => {
+  const { meta, path } = route
+  if (meta?.activeMenu) {
+    return meta.activeMenu
+  }
+  return path
+})
+
+const isCollapse = computed(() => {
+  return !appStore.sidebar.opened
+})
+</script>
+
 <template>
-  <div>
-    <Logo :collapse="isCollapse" />
+  <div :class="{ 'has-logo': true }">
+    <SidebarLogo :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -9,36 +34,19 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <MenuItem
-        :is-collapse="isCollapse"
+        <SidebarItem
+          v-for="route in permissionStore.routes"
+          :key="route.path"
+          :item="route"
+          :base-path="route.path"
+          :is-collapse="isCollapse"
         />
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
 
-<script lang="ts" setup>
-import Logo from './Logo.vue'
-import MenuItem from './MenuItem.vue';
-import { useAppStore } from '@/store/modules/app'
-import { useRoute } from 'vue-router';
-import { computed } from 'vue';
-
-const appStore = useAppStore()
-const route = useRoute()
-
-/* 定义页面默认选中的菜单 */
-const activeMenu = computed(()=>{
-  const { path } = route
-  return path
-})
-/* 定义是侧边栏状态 */
-const isCollapse = ()=>{
-  return !appStore.sidebar.open
-}
-</script>
-
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
 @mixin tip-line {
   &::before {
     content: "";
@@ -59,16 +67,13 @@ const isCollapse = ()=>{
 
 .el-scrollbar {
   height: 100%;
-
   :deep(.scrollbar-wrapper) {
     // 限制水平宽度
     overflow-x: hidden !important;
-
     .el-scrollbar__view {
       height: 100%;
     }
   }
-
   // 滚动条
   :deep(.el-scrollbar__bar) {
     &.is-horizontal {
@@ -89,14 +94,11 @@ const isCollapse = ()=>{
 :deep(.el-sub-menu .el-menu-item) {
   height: var(--v3-sidebar-menu-item-height);
   line-height: var(--v3-sidebar-menu-item-height);
-
   &.is-active,
   &:hover {
     background-color: var(--v3-sidebar-menu-hover-bg-color);
   }
-
   display: block;
-
   * {
     vertical-align: middle;
   }
@@ -117,4 +119,5 @@ const isCollapse = ()=>{
       }
     }
   }
-}</style>
+}
+</style>

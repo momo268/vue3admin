@@ -1,9 +1,16 @@
-import { createApp } from 'vue'
-import './styles/indx.scss'
-import App from './App.vue'
-import router from './router'
-import store from '@/store'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "@/store";
+import "@/router/permission"
+import { loadSvg } from "@/icons";
+import "element-plus/dist/index.css";
 
-const app = createApp(App)
-app.use(router).use(store)
-app.mount('#app')
+
+import "normalize.css"
+import "./styles/indx.scss";
+const app = createApp(App);
+
+loadSvg(app);
+app.use(router).use(store);
+app.mount("#app");
