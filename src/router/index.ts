@@ -5,8 +5,36 @@ const Layout = () => import("@/layout/index.vue")
 /** 常驻路由 */
 export const constantRoutes: RouteRecordRaw[] = [
   {
+    path: "/redirect",
+    component: Layout,
+    meta: {
+      hidden: true
+    },
+    children: [
+      {
+        path: "/redirect/:path(.*)",
+        component: () => import("@/views/redirect/index.vue")
+      }
+    ]
+  },
+  {
+    path: "/403",
+    component: () => import("@/views/error-page/403.vue"),
+    meta: {
+      hidden: true
+    }
+  },
+  {
+    path: "/404",
+    component: () => import("@/views/error-page/404.vue"),
+    meta: {
+      hidden: true
+    },
+    alias: "/:pathMatch(.*)*"
+  },
+  {
     path: "/login",
-    component: () => import("@/pages/login/index.vue"),
+    component: () => import("@/views/login/index.vue"),
     meta: {
       hidden: true
     }
@@ -18,7 +46,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "dashboard",
-        component: () => import("@/pages/dashboard/index.vue"),
+        component: () => import("@/views/dashboard/index.vue"),
         name: "Dashboard",
         meta: {
           title: "首页",
@@ -27,7 +55,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         }
       }
     ]
-  }
+  },
 ]
 
 /**
@@ -50,13 +78,21 @@ export const asyncRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "page",
-        component: () => import("@/pages/permission/page.vue"),
+        component: () => import("@/views/permission/page.vue"),
         name: "PagePermission",
         meta: {
           title: "页面权限",
           roles: ["admin"] // 或者在子导航中设置角色
         }
       },
+      {
+        path: "directive",
+        component: () => import("@/views/permission/directive.vue"),
+        name: "DirectivePermission",
+        meta: {
+          title: "指令权限" // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
+        }
+      }
     ]
   },
   {
@@ -70,12 +106,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history:
-    import.meta.env.VITE_ROUTER_HISTORY === "hash"
-      ? createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH)
-      : createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
+  history:createWebHashHistory(),
   routes: constantRoutes
 })
-
 
 export default router

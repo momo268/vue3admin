@@ -3,7 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { resolve } from "path"
+import path, { resolve } from "path"
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,7 +21,11 @@ export default defineConfig({
     }),
     Components({
       resolvers: [ElementPlusResolver()],
-    })
+    }),
+    createSvgIconsPlugin({
+      iconDirs: [path.resolve(process.cwd(), "src/icons/svg")],
+      symbolId: "icon-[dir]-[name]"
+    }),
   ],
   server: {
     host: true,

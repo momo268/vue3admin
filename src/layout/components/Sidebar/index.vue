@@ -5,10 +5,16 @@ import { useAppStore } from "@/store/modules/app"
 import { usePermissionStore } from "@/store/modules/permission"
 import SidebarItem from "./SidebarItem.vue"
 import SidebarLogo from "./SidebarLogo.vue"
+import { getCssVariableValue } from "@/utils"
+
+const v3SidebarMenuBgColor = getCssVariableValue("--v3-sidebar-menu-bg-color")
+const v3SidebarMenuTextColor = getCssVariableValue("--v3-sidebar-menu-text-color")
+const v3SidebarMenuActiveTextColor = getCssVariableValue("--v3-sidebar-menu-active-text-color")
 
 const route = useRoute()
 const appStore = useAppStore()
 const permissionStore = usePermissionStore()
+
 
 const activeMenu = computed(() => {
   const { meta, path } = route
@@ -25,11 +31,14 @@ const isCollapse = computed(() => {
 
 <template>
   <div :class="{ 'has-logo': true }">
-    <SidebarLogo :collapse="isCollapse" />
+    <SidebarLogo v-if="true" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
+        :background-color="v3SidebarMenuBgColor"
+        :text-color="v3SidebarMenuTextColor"
+        :active-text-color="v3SidebarMenuActiveTextColor"
         :unique-opened="true"
         :collapse-transition="false"
         mode="vertical"

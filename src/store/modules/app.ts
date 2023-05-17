@@ -1,45 +1,41 @@
-/* 此app是控制左侧菜单栏展开和关闭和是否是否为手机设备 */
-
-import { getSidebarSatus, setSidebarStatus } from "@/utils/cache/localStorage";
-import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { reactive, ref } from "vue"
+import { defineStore } from "pinia"
+import { getSidebarStatus, setSidebarStatus } from "@/utils/cache/localStorage"
 
 export enum DeviceType {
   Mobile,
-  Desktop,
+  Desktop
+}
+
+interface ISidebar {
+  opened: boolean
+  withoutAnimation: boolean
 }
 
 export const useAppStore = defineStore("app", () => {
-  // 定义左侧栏的是否展开状态
-  const sidebar: any = reactive({
-    open: getSidebarSatus() !== "close",
-  });
+  const sidebar: ISidebar = reactive({
+    opened: getSidebarStatus() !== "closed",
+    withoutAnimation: false
+  })
+  const device = ref<DeviceType>(DeviceType.Desktop)
 
-  // 定义设备名称 是桌面端还是手机端
-  const device = ref<DeviceType>(DeviceType.Desktop);
-
-  /* 切换左侧栏展开和关闭 */
-  const toggleSidebar = () => {
-    // 切换状态
-    sidebar.open = !sidebar.open;
-    // 状态存入localStorage里面,目的可以持久化
-    if (sidebar.open) {
-      setSidebarStatus("open");
+  const toggleSidebar = (withoutAnimation: boolean) => {
+    sidebar.opened = !sidebar.opened
+    sidebar.withoutAnimation = withoutAnimation
+    if (sidebar.opened) {
+      setSidebarStatus("opened")
     } else {
-      setSidebarStatus("close");
+      setSidebarStatus("closed")
     }
-  };
-
-  /* 关闭左侧栏 */
-  const closeSidebar = () => {
-    sidebar.open = false;
-    setSidebarStatus("close");
-  };
-
-  /* 切换设备 */
+  }
+  const closeSidebar = (withoutAnimation: boolean) => {
+    sidebar.opened = false
+    sidebar.withoutAnimation = withoutAnimation
+    setSidebarStatus("closed")
+  }
   const toggleDevice = (value: DeviceType) => {
-    device.value = value;
-  };
+    device.value = value
+  }
 
-  return { sidebar, device, toggleSidebar, closeSidebar, toggleDevice };
-});
+  return { device, sidebar, toggleSidebar, closeSidebar, toggleDevice }
+})

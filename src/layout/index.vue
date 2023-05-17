@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from "vue"
 import { useAppStore, DeviceType } from "@/store/modules/app"
-import Sidebar from "./components/Sidebar/index.vue"
+import { AppMain, NavigationBar,  Sidebar, TagsView } from "./components"
 import useResize from "./hooks/useResize"
 
 const appStore = useAppStore()
@@ -13,12 +13,14 @@ const classObj = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened,
     openSidebar: appStore.sidebar.opened,
-    mobile: appStore.device === DeviceType.Mobile
+    withoutAnimation: appStore.sidebar.withoutAnimation,
+    mobile: appStore.device === DeviceType.Mobile,
   }
 })
 
+
 const handleClickOutside = () => {
-  appStore.closeSidebar()
+  appStore.closeSidebar(false)
 }
 </script>
 
@@ -26,6 +28,13 @@ const handleClickOutside = () => {
   <div :class="classObj" class="app-wrapper">
     <div v-if="classObj.mobile && classObj.openSidebar" class="drawer-bg" @click="handleClickOutside" />
     <Sidebar class="sidebar-container" />
+    <div :class="{ hasTagsView: true }" class="main-container">
+      <div :class="{ 'fixed-header': true }">
+        <NavigationBar />
+        <TagsView v-show="true" />
+      </div>
+      <AppMain />
+    </div>
   </div>
 </template>
 
@@ -123,5 +132,10 @@ const handleClickOutside = () => {
   }
 }
 
-
+.withoutAnimation {
+  .main-container,
+  .sidebar-container {
+    transition: none;
+  }
+}
 </style>

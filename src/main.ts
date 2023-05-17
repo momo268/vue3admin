@@ -1,16 +1,23 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "@/store";
+// core
+import { createApp } from "vue"
+import App from "@/App.vue"
+import store from "@/store"
+import router from "@/router"
 import "@/router/permission"
-import { loadSvg } from "@/icons";
-import "element-plus/dist/index.css";
+// load
+import { loadSvg } from "@/icons"
+// css
+import "element-plus/dist/index.css"
+import "@/styles/index.scss"
+
+const app = createApp(App)
 
 
-import "normalize.css"
-import "./styles/indx.scss";
-const app = createApp(App);
+/** 加载全局 SVG */
+loadSvg(app)
 
-loadSvg(app);
-app.use(router).use(store);
-app.mount("#app");
+
+app.use(store).use(router)
+router.isReady().then(() => {
+  app.mount("#app")
+})

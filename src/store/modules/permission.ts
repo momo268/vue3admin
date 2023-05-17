@@ -9,7 +9,7 @@ const hasPermission = (roles: string[], route: RouteRecordRaw) => {
   if (route.meta && route.meta.roles) {
     return roles.some((role) => {
       if (route.meta?.roles !== undefined) {
-        return (route.meta.roles as string).includes(role)
+        return route.meta.roles.includes(role)
       } else {
         return false
       }

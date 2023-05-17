@@ -1,11 +1,18 @@
-/* 处理localStorage*/
+/** 统一处理 localStorage */
 
-/* 获取侧边栏关闭还是展开状态 */
-export const getSidebarSatus = () => {
-  return localStorage.getItem('Sidebar-Status')
+import CacheKey from "@/constants/cacheKey"
+import { type ThemeName } from "@/hooks/useTheme"
+
+export const getSidebarStatus = () => {
+  return localStorage.getItem(CacheKey.SIDEBAR_STATUS)
+}
+export const setSidebarStatus = (sidebarStatus: "opened" | "closed") => {
+  localStorage.setItem(CacheKey.SIDEBAR_STATUS, sidebarStatus)
 }
 
-/* 设置侧边栏关闭还是展开状态 */
-export const setSidebarStatus = (status: string) => {
-  return localStorage.setItem('Sidebar-Status', status)
+export const getActiveThemeName = () => {
+  return localStorage.getItem(CacheKey.ACTIVE_THEME_NAME) as ThemeName
+}
+export const setActiveThemeName = (themeName: ThemeName) => {
+  localStorage.setItem(CacheKey.ACTIVE_THEME_NAME, themeName)
 }

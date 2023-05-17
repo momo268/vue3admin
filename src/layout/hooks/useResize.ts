@@ -20,7 +20,7 @@ export default () => {
       const isMobile = _isMobile()
       appStore.toggleDevice(isMobile ? DeviceType.Mobile : DeviceType.Desktop)
       if (isMobile) {
-        appStore.closeSidebar()
+        appStore.closeSidebar(true)
       }
     }
   }
@@ -29,7 +29,7 @@ export default () => {
     () => route.name,
     () => {
       if (appStore.device === DeviceType.Mobile && appStore.sidebar.opened) {
-        appStore.closeSidebar()
+        appStore.closeSidebar(false)
       }
     }
   )
@@ -41,7 +41,7 @@ export default () => {
   onMounted(() => {
     if (_isMobile()) {
       appStore.toggleDevice(DeviceType.Mobile)
-      appStore.closeSidebar()
+      appStore.closeSidebar(true)
     }
   })
 

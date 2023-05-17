@@ -49,6 +49,8 @@ const theOnlyOneChild = computed(() => {
       }
     }
   }
+  // If there is no children, return itself with path removed,
+  // because this.basePath already contains item's path information
   return { ...props.item, path: "" }
 })
 
