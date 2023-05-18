@@ -1,3 +1,24 @@
+<template>
+  <div class="tags-view-container">
+    <ScrollPane class="tags-view-wrapper" :tag-refs="tagRefs">
+      <router-link ref="tagRefs" v-for="tag in tagsViewStore.visitedViews" :key="tag.path"
+        :class="isActive(tag) ? 'active' : ''" :to="{ path: tag.path, query: tag.query }" class="tags-view-item"
+        @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''" @contextmenu.prevent="openMenu(tag, $event)">
+        {{ tag.meta?.title }}
+        <el-icon v-if="!isAffix(tag)" :size="12" @click.prevent.stop="closeSelectedTag(tag)">
+          <Close />
+        </el-icon>
+      </router-link>
+    </ScrollPane>
+    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其它</li>
+      <li @click="closeAllTags(selectedTag)">关闭所有</li>
+    </ul>
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { getCurrentInstance, onMounted, ref, watch } from "vue"
 import { type RouteRecordRaw, RouterLink, useRoute, useRouter } from "vue-router"
@@ -161,34 +182,6 @@ onMounted(() => {
 })
 </script>
 
-<template>
-  <div class="tags-view-container">
-    <ScrollPane class="tags-view-wrapper" :tag-refs="tagRefs">
-      <router-link
-        ref="tagRefs"
-        v-for="tag in tagsViewStore.visitedViews"
-        :key="tag.path"
-        :class="isActive(tag) ? 'active' : ''"
-        :to="{ path: tag.path, query: tag.query }"
-        class="tags-view-item"
-        @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
-        @contextmenu.prevent="openMenu(tag, $event)"
-      >
-        {{ tag.meta?.title }}
-        <el-icon v-if="!isAffix(tag)" :size="12" @click.prevent.stop="closeSelectedTag(tag)">
-          <Close />
-        </el-icon>
-      </router-link>
-    </ScrollPane>
-    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">关闭</li>
-      <li @click="closeOthersTags">关闭其它</li>
-      <li @click="closeAllTags(selectedTag)">关闭所有</li>
-    </ul>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .tags-view-container {
   height: var(--v3-tagsview-height);
@@ -196,6 +189,7 @@ onMounted(() => {
   background-color: #fff;
   border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 #00000010, 0 0 3px 0 #00000010;
+
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
@@ -211,16 +205,20 @@ onMounted(() => {
       font-size: 12px;
       margin-left: 5px;
       margin-top: 4px;
+
       &:first-of-type {
         margin-left: 5px;
       }
+
       &:last-of-type {
         margin-right: 5px;
       }
+
       &.active {
         background-color: var(--v3-tagsview-tag-active-bg-color);
         color: var(--v3-tagsview-tag-active-text-color);
         border-color: var(--v3-tagsview-tag-active-border-color);
+
         &::before {
           content: "";
           background-color: var(--v3-tagsview-tag-active-before-color);
@@ -232,10 +230,12 @@ onMounted(() => {
           margin-right: 2px;
         }
       }
+
       .el-icon {
         margin: 0 2px;
         vertical-align: middle;
         border-radius: 50%;
+
         &:hover {
           background-color: var(--v3-tagsview-tag-icon-hover-bg-color);
           color: var(--v3-tagsview-tag-icon-hover-color);
@@ -243,6 +243,7 @@ onMounted(() => {
       }
     }
   }
+
   .contextmenu {
     margin: 0;
     background-color: #fff;
@@ -255,14 +256,15 @@ onMounted(() => {
     font-weight: 400;
     color: #333;
     box-shadow: 2px 2px 3px 0 #00000030;
+
     li {
       margin: 0;
       padding: 7px 16px;
       cursor: pointer;
+
       &:hover {
         background-color: #eee;
       }
     }
   }
-}
-</style>
+}</style>

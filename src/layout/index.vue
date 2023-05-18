@@ -1,7 +1,21 @@
+<template>
+  <div :class="classObj" class="app-wrapper">
+    <div v-if="classObj.mobile && classObj.openSidebar" class="drawer-bg" @click="handleClickOutside" />
+    <Sidebar class="sidebar-container" />
+    <div :class="{ hasTagsView: true }" class="main-container">
+      <div :class="{ 'fixed-header': true }">
+        <NavigationBar />
+        <TagsView v-show="true" />
+      </div>
+      <AppMain />
+    </div>
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { computed } from "vue"
 import { useAppStore, DeviceType } from "@/store/modules/app"
-import { AppMain, NavigationBar,  Sidebar, TagsView } from "./components"
+import { AppMain, NavigationBar, Sidebar, TagsView } from "./components"
 import useResize from "./hooks/useResize"
 
 const appStore = useAppStore()
@@ -23,20 +37,6 @@ const handleClickOutside = () => {
   appStore.closeSidebar(false)
 }
 </script>
-
-<template>
-  <div :class="classObj" class="app-wrapper">
-    <div v-if="classObj.mobile && classObj.openSidebar" class="drawer-bg" @click="handleClickOutside" />
-    <Sidebar class="sidebar-container" />
-    <div :class="{ hasTagsView: true }" class="main-container">
-      <div :class="{ 'fixed-header': true }">
-        <NavigationBar />
-        <TagsView v-show="true" />
-      </div>
-      <AppMain />
-    </div>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 @import "@/styles/mixins.scss";
@@ -98,9 +98,11 @@ const handleClickOutside = () => {
   .main-container {
     margin-left: var(--v3-sidebar-hide-width);
   }
+
   .sidebar-container {
     width: var(--v3-sidebar-hide-width) !important;
   }
+
   .fixed-header {
     width: calc(100% - var(--v3-sidebar-hide-width));
   }
@@ -111,14 +113,17 @@ const handleClickOutside = () => {
   .main-container {
     margin-left: 0px;
   }
+
   .sidebar-container {
     transition: transform 0.28s;
     width: var(--v3-sidebar-width) !important;
   }
+
   &.openSidebar {
     position: fixed;
     top: 0;
   }
+
   &.hideSidebar {
     .sidebar-container {
       pointer-events: none;
@@ -133,9 +138,9 @@ const handleClickOutside = () => {
 }
 
 .withoutAnimation {
+
   .main-container,
   .sidebar-container {
     transition: none;
   }
-}
-</style>
+}</style>

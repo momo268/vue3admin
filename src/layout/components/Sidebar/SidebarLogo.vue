@@ -1,12 +1,3 @@
-<script lang="ts" setup>
-const props = defineProps({
-  collapse: {
-    type: Boolean,
-    default: true
-  }
-})
-</script>
-
 <template>
   <div class="sidebar-logo-container" :class="{ collapse: props.collapse }">
     <transition name="sidebar-logo-fade">
@@ -20,6 +11,15 @@ const props = defineProps({
   </div>
 </template>
 
+<script lang="ts" setup>
+const props = defineProps({
+  collapse: {
+    type: Boolean,
+    default: true
+  }
+})
+</script>
+
 <style lang="scss" scoped>
 .sidebar-logo-container {
   position: relative;
@@ -29,9 +29,11 @@ const props = defineProps({
   background-color: var(--v3-sidebarlogo-bg-color);
   text-align: center;
   overflow: hidden;
+
   .sidebar-logo {
     display: none;
   }
+
   .sidebar-logo-text {
     height: 100%;
     vertical-align: middle;
@@ -45,8 +47,8 @@ const props = defineProps({
     vertical-align: middle;
     display: inline-block;
   }
+
   .sidebar-logo-text {
     display: none;
   }
-}
-</style>
+}</style>

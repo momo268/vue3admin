@@ -21,10 +21,6 @@ const themeList: IThemeList[] = [
   {
     title: "黑暗",
     name: "dark"
-  },
-  {
-    title: "深蓝",
-    name: "dark-blue"
   }
 ]
 

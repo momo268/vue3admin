@@ -1,3 +1,16 @@
+<template>
+  <div :class="{ 'has-logo': true }">
+    <SidebarLogo v-if="true" :collapse="isCollapse" />
+    <el-scrollbar wrap-class="scrollbar-wrapper">
+      <el-menu :default-active="activeMenu" :collapse="isCollapse" :background-color=color.bgc :text-color=color.textcolor
+        :active-text-color=color.activetextcolor :unique-opened="true" :collapse-transition="false" mode="vertical">
+        <SidebarItem v-for="route in permissionStore.routes" :key="route.path" :item="route" :base-path="route.path"
+          :is-collapse="isCollapse" />
+      </el-menu>
+    </el-scrollbar>
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { computed } from "vue"
 import { useRoute } from "vue-router"
@@ -5,11 +18,9 @@ import { useAppStore } from "@/store/modules/app"
 import { usePermissionStore } from "@/store/modules/permission"
 import SidebarItem from "./SidebarItem.vue"
 import SidebarLogo from "./SidebarLogo.vue"
-import { getCssVariableValue } from "@/utils"
+// import { getCssVariableValue } from "@/utils"
 
-const v3SidebarMenuBgColor = getCssVariableValue("--v3-sidebar-menu-bg-color")
-const v3SidebarMenuTextColor = getCssVariableValue("--v3-sidebar-menu-text-color")
-const v3SidebarMenuActiveTextColor = getCssVariableValue("--v3-sidebar-menu-active-text-color")
+// const v3SidebarMenuActiveTextColor = getCssVariableValue("--v3-sidebar-menu-active-text-color")
 
 const route = useRoute()
 const appStore = useAppStore()
@@ -27,33 +38,13 @@ const activeMenu = computed(() => {
 const isCollapse = computed(() => {
   return !appStore.sidebar.opened
 })
-</script>
 
-<template>
-  <div :class="{ 'has-logo': true }">
-    <SidebarLogo v-if="true" :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu
-        :default-active="activeMenu"
-        :collapse="isCollapse"
-        :background-color="v3SidebarMenuBgColor"
-        :text-color="v3SidebarMenuTextColor"
-        :active-text-color="v3SidebarMenuActiveTextColor"
-        :unique-opened="true"
-        :collapse-transition="false"
-        mode="vertical"
-      >
-        <SidebarItem
-          v-for="route in permissionStore.routes"
-          :key="route.path"
-          :item="route"
-          :base-path="route.path"
-          :is-collapse="isCollapse"
-        />
-      </el-menu>
-    </el-scrollbar>
-  </div>
-</template>
+const color = {
+  bgc: "#fff",
+  textcolor: "#333",
+  activetextcolor: "#009688"
+}
+</script>
 
 <style lang="scss" scoped>
 @mixin tip-line {
@@ -76,13 +67,16 @@ const isCollapse = computed(() => {
 
 .el-scrollbar {
   height: 100%;
+
   :deep(.scrollbar-wrapper) {
     // 限制水平宽度
     overflow-x: hidden !important;
+
     .el-scrollbar__view {
       height: 100%;
     }
   }
+
   // 滚动条
   :deep(.el-scrollbar__bar) {
     &.is-horizontal {
@@ -103,11 +97,14 @@ const isCollapse = computed(() => {
 :deep(.el-sub-menu .el-menu-item) {
   height: var(--v3-sidebar-menu-item-height);
   line-height: var(--v3-sidebar-menu-item-height);
+
   &.is-active,
   &:hover {
     background-color: var(--v3-sidebar-menu-hover-bg-color);
   }
+
   display: block;
+
   * {
     vertical-align: middle;
   }

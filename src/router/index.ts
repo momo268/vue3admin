@@ -1,4 +1,4 @@
-import { type RouteRecordRaw, createRouter, createWebHashHistory, createWebHistory } from "vue-router"
+import { type RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router"
 
 const Layout = () => import("@/layout/index.vue")
 
@@ -16,13 +16,6 @@ export const constantRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/redirect/index.vue")
       }
     ]
-  },
-  {
-    path: "/403",
-    component: () => import("@/views/error-page/403.vue"),
-    meta: {
-      hidden: true
-    }
   },
   {
     path: "/404",
@@ -51,11 +44,56 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: {
           title: "首页",
           svgIcon: "dashboard",
-          affix: true
+          // affix: true
+        }
+      },
+    ]
+  },
+  {
+    path: "/student",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/student/index.vue"),
+        name: "学生管理",
+        meta: {
+          title: "学生管理",
+          svgIcon: "user",
         }
       }
     ]
   },
+  {
+    path: "/class",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/class/index.vue"),
+        name: "班级管理",
+        meta: {
+          title: "班级管理",
+          svgIcon: "document",
+        }
+      }
+    ]
+  },
+  {
+    path: "/statis",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/statis/index.vue"),
+        name: "统计分析",
+        meta: {
+          title: "统计分析",
+          svgIcon: "piechart",
+        }
+      }
+    ]
+  }
 ]
 
 /**
@@ -106,7 +144,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history:createWebHashHistory(),
+  history: createWebHashHistory(),
   routes: constantRoutes
 })
 

@@ -1,3 +1,10 @@
+<template>
+  <ElConfigProvider :locale="locale">
+    <router-view />
+  </ElConfigProvider>
+</template>
+
+
 <script lang="ts" setup>
 import { useTheme } from "@/hooks/useTheme"
 import zhCn from "element-plus/lib/locale/lang/zh-cn"
@@ -11,8 +18,3 @@ const locale = zhCn
 
 </script>
 
-<template>
-  <ElConfigProvider :locale="locale">
-    <router-view />
-  </ElConfigProvider>
-</template>

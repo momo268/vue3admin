@@ -1,3 +1,15 @@
+<template>
+  <section class="app-main">
+    <router-view v-slot="{ Component }">
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive :include="tagsViewStore.cachedViews">
+          <component :is="Component" :key="key" />
+        </keep-alive>
+      </transition>
+    </router-view>
+  </section>
+</template>
+
 <script lang="ts" setup>
 import { computed } from "vue"
 import { useRoute } from "vue-router"
@@ -11,18 +23,6 @@ const key = computed(() => {
 })
 </script>
 
-<template>
-  <section class="app-main">
-    <router-view v-slot="{ Component }">
-      <transition name="fade-transform" mode="out-in">
-        <keep-alive :include="tagsViewStore.cachedViews">
-          <component :is="Component" :key="key" />
-        </keep-alive>
-      </transition>
-    </router-view>
-  </section>
-</template>
-
 <style lang="scss" scoped>
 .app-main {
   min-height: calc(100vh - var(--v3-navigationbar-height));
@@ -32,7 +32,7 @@ const key = computed(() => {
   background-color: var(--v3-body-bg-color);
 }
 
-.fixed-header + .app-main {
+.fixed-header+.app-main {
   padding-top: var(--v3-navigationbar-height);
   height: 100vh;
   overflow: auto;
@@ -42,7 +42,8 @@ const key = computed(() => {
   .app-main {
     min-height: calc(100vh - var(--v3-header-height));
   }
-  .fixed-header + .app-main {
+
+  .fixed-header+.app-main {
     padding-top: var(--v3-header-height);
   }
 }

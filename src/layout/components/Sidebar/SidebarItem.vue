@@ -1,13 +1,40 @@
+<template>
+  <div v-if="!props.item.meta?.hidden" :class="{ 'simple-mode': props.isCollapse, 'first-level': props.isFirstLevel }">
+    <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
+      <SidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
+        <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
+          <svg-icon v-if="theOnlyOneChild.meta.svgIcon" :name="theOnlyOneChild.meta.svgIcon" />
+          <component v-else-if="theOnlyOneChild.meta.elIcon" :is="theOnlyOneChild.meta.elIcon" class="el-icon" />
+          <template v-if="theOnlyOneChild.meta.title" #title>
+            {{ theOnlyOneChild.meta.title }}
+          </template>
+        </el-menu-item>
+      </SidebarItemLink>
+    </template>
+    <el-sub-menu v-else :index="resolvePath(props.item.path)" teleported>
+      <template #title>
+        <svg-icon v-if="props.item.meta && props.item.meta.svgIcon" :name="props.item.meta.svgIcon" />
+        <component v-else-if="props.item.meta && props.item.meta.elIcon" :is="props.item.meta.elIcon" class="el-icon" />
+        <span v-if="props.item.meta && props.item.meta.title">{{ props.item.meta.title }}</span>
+      </template>
+      <template v-if="props.item.children">
+        <sidebar-item v-for="child in props.item.children" :key="child.path" :item="child" :is-collapse="props.isCollapse"
+          :is-first-level="false" :base-path="resolvePath(child.path)" />
+      </template>
+    </el-sub-menu>
+  </div>
+</template>
+
+
 <script lang="ts" setup>
-import { type PropType, computed } from "vue"
-import { type RouteRecordRaw } from "vue-router"
+import { computed } from "vue"
 import SidebarItemLink from "./SidebarItemLink.vue"
 import { isExternal } from "@/utils/validate"
 import path from "path-browserify"
 
 const props = defineProps({
   item: {
-    type: Object as PropType<RouteRecordRaw>,
+    type: Object,
     required: true
   },
   isCollapse: {
@@ -30,7 +57,7 @@ const alwaysShowRootMenu = computed(() => {
 
 const showingChildNumber = computed(() => {
   if (props.item.children) {
-    const showingChildren = props.item.children.filter((item) => {
+    const showingChildren = props.item.children.filter((item: any) => {
       return !(item.meta && item.meta.hidden)
     })
     return showingChildren.length
@@ -65,39 +92,6 @@ const resolvePath = (routePath: string) => {
 }
 </script>
 
-<template>
-  <div v-if="!props.item.meta?.hidden" :class="{ 'simple-mode': props.isCollapse, 'first-level': props.isFirstLevel }">
-    <template v-if="!alwaysShowRootMenu && theOnlyOneChild && !theOnlyOneChild.children">
-      <SidebarItemLink v-if="theOnlyOneChild.meta" :to="resolvePath(theOnlyOneChild.path)">
-        <el-menu-item :index="resolvePath(theOnlyOneChild.path)">
-          <svg-icon v-if="theOnlyOneChild.meta.svgIcon" :name="theOnlyOneChild.meta.svgIcon" />
-          <component v-else-if="theOnlyOneChild.meta.elIcon" :is="theOnlyOneChild.meta.elIcon" class="el-icon" />
-          <template v-if="theOnlyOneChild.meta.title" #title>
-            {{ theOnlyOneChild.meta.title }}
-          </template>
-        </el-menu-item>
-      </SidebarItemLink>
-    </template>
-    <el-sub-menu v-else :index="resolvePath(props.item.path)" teleported>
-      <template #title>
-        <svg-icon v-if="props.item.meta && props.item.meta.svgIcon" :name="props.item.meta.svgIcon" />
-        <component v-else-if="props.item.meta && props.item.meta.elIcon" :is="props.item.meta.elIcon" class="el-icon" />
-        <span v-if="props.item.meta && props.item.meta.title">{{ props.item.meta.title }}</span>
-      </template>
-      <template v-if="props.item.children">
-        <sidebar-item
-          v-for="child in props.item.children"
-          :key="child.path"
-          :item="child"
-          :is-collapse="props.isCollapse"
-          :is-first-level="false"
-          :base-path="resolvePath(child.path)"
-        />
-      </template>
-    </el-sub-menu>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .svg-icon {
   min-width: 1em;
@@ -117,6 +111,7 @@ const resolvePath = (routePath: string) => {
       .el-sub-menu__icon-arrow {
         display: none;
       }
+
       span {
         visibility: hidden;
       }

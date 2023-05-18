@@ -1,15 +1,3 @@
-<script lang="ts" setup>
-import { ref } from "vue"
-import { checkPermission } from "@/utils/permission" // checkPermission 权限判断函数
-import SwitchRoles from "./components/SwitchRoles.vue"
-
-/** key 是为了能每次切换权限的时候重新初始化指令 */
-const key = ref(1)
-const handleRolesChange = () => {
-  key.value++
-}
-</script>
-
 <template>
   <div class="app-container">
     <SwitchRoles @change="handleRolesChange" />
@@ -64,6 +52,18 @@ const handleRolesChange = () => {
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { ref } from "vue"
+import { checkPermission } from "@/utils/permission" // checkPermission 权限判断函数
+import SwitchRoles from "./components/SwitchRoles.vue"
+
+/** key 是为了能每次切换权限的时候重新初始化指令 */
+const key = ref(1)
+const handleRolesChange = () => {
+  key.value++
+}
+</script>
 
 <style lang="scss" scoped>
 .permission-alert {

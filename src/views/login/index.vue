@@ -1,38 +1,3 @@
-<script lang="ts" setup>
-import { reactive, ref } from "vue"
-import { useRouter } from "vue-router"
-import { User, Lock } from "@element-plus/icons-vue"
-import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
-import { type FormInstance, FormRules } from "element-plus"
-import { type ILoginRequestData } from "@/api/login/types/login"
-import Cookies from "js-cookie"
-
-const router = useRouter()
-const loginFormRef = ref<FormInstance | null>(null)
-
-/** 登录按钮 Loading */
-const loading = ref(false)
-/** 登录表单数据 */
-const loginForm: ILoginRequestData = reactive({
-  username: "admin",
-  password: "12345678",
-  code: ""
-})
-/** 登录表单校验规则 */
-const loginFormRules: FormRules = {
-  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [
-    { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" }
-  ],
-}
-/** 登录逻辑 */
-const handleLogin = () => {
-  Cookies.set('v3-admin-vite-token-key', 'token-admin')
-  router.push({ path: "/" })
-}
-</script>
-
 <template>
   <div class="login-container">
     <ThemeSwitch class="theme-switch" />
@@ -56,6 +21,48 @@ const handleLogin = () => {
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { reactive, ref } from "vue"
+import { useRouter } from "vue-router"
+import { User, Lock } from "@element-plus/icons-vue"
+import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
+import { type FormInstance, FormRules, ElMessage } from "element-plus"
+// import { type ILoginRequestData } from "@/api/login/types/login"
+import Cookies from "js-cookie"
+import { login } from '@/api/user/index'
+import { Login } from "@/api/types"
+
+const router = useRouter()
+const loginFormRef = ref<FormInstance | null>(null)
+
+/** 登录按钮 Loading */
+const loading = ref(false)
+/** 登录表单数据 */
+const loginForm = reactive({
+  username: "admin",
+  password: "admin",
+})
+/** 登录表单校验规则 */
+const loginFormRules: FormRules = {
+  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+  password: [
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 3, max: 16, message: "长度在 3 到 16 个字符", trigger: "blur" }
+  ],
+}
+/** 登录逻辑 */
+const handleLogin = async () => {
+  const res: Login.LoginRes = await login(loginForm)
+  console.log(res);
+  if (res.code == 1) {
+    Cookies.set('v3-admin-vite-token-key', 'token-admin')
+    router.push({ path: "/" })
+  } else {
+    ElMessage.error(res.msg)
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .login-container {

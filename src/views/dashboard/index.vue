@@ -1,3 +1,7 @@
+<template>
+  <component :is="currentRole === 'admin' ? AdminDashboard : EditorDashboard" />
+</template>
+
 <script lang="ts" setup>
 import { ref } from "vue"
 import { useUserStore } from "@/store/modules/user"
@@ -13,6 +17,3 @@ if (!userStore.roles.includes("admin")) {
 }
 </script>
 
-<template>
-  <component :is="currentRole === 'admin' ? AdminDashboard : EditorDashboard" />
-</template>

@@ -1,3 +1,20 @@
+<template>
+  <div class="scroll-container">
+    <el-icon class="arrow left" @click="scrollTo('left')">
+      <ArrowLeft />
+    </el-icon>
+    <el-scrollbar ref="scrollbarRef" @wheel.prevent="wheelScroll" @scroll="scroll">
+      <div ref="scrollbarContentRef" class="scrollbar-content">
+        <slot />
+      </div>
+    </el-scrollbar>
+    <el-icon class="arrow right" @click="scrollTo('right')">
+      <ArrowRight />
+    </el-icon>
+    <Screenfull v-if="true" element=".app-main" open-tips="内容区全屏" class="screenfull" />
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { type PropType, ref, watch, nextTick } from "vue"
 import { RouterLink, useRoute } from "vue-router"
@@ -102,23 +119,6 @@ watch(
 
 </script>
 
-<template>
-  <div class="scroll-container">
-    <el-icon class="arrow left" @click="scrollTo('left')">
-      <ArrowLeft />
-    </el-icon>
-    <el-scrollbar ref="scrollbarRef" @wheel.prevent="wheelScroll" @scroll="scroll">
-      <div ref="scrollbarContentRef" class="scrollbar-content">
-        <slot />
-      </div>
-    </el-scrollbar>
-    <el-icon class="arrow right" @click="scrollTo('right')">
-      <ArrowRight />
-    </el-icon>
-    <Screenfull v-if="true" element=".app-main" open-tips="内容区全屏" class="screenfull" />
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .scroll-container {
   height: 100%;
@@ -157,4 +157,5 @@ watch(
     align-items: center;
     cursor: pointer;
   }
-}</style>
+}
+</style>

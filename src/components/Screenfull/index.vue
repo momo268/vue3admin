@@ -1,3 +1,12 @@
+
+<template>
+  <div @click="click">
+    <el-tooltip effect="dark" :content="tips" placement="bottom">
+      <svg-icon :name="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" />
+    </el-tooltip>
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { ref, onUnmounted } from "vue"
 import { ElMessage } from "element-plus"
@@ -47,17 +56,10 @@ onUnmounted(() => {
 })
 </script>
 
-<template>
-  <div @click="click">
-    <el-tooltip effect="dark" :content="tips" placement="bottom">
-      <svg-icon :name="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" />
-    </el-tooltip>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .svg-icon {
   font-size: 20px;
+
   &:focus {
     outline: none;
   }
