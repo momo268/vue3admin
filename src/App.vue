@@ -19,6 +19,8 @@ const locale = zhCn
 </script>
 
 <style>
-
+.el-select-dropdown__item.selected {
+  color: #137f7f !important;
+}
 </style>
 

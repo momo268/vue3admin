@@ -57,6 +57,14 @@ const handleCurrentChange = (val: number) => {
   .head {
     display: flex;
 
+    :deep(.el-range-editor.is-active:hover) {
+      box-shadow: 0 0 0 1px #137f7f;
+    }
+
+    :deep(.el-range-editor.is-active) {
+      box-shadow: 0 0 0 1px #137f7f;
+    }
+
     .el-button {
       padding: 19px 20px;
       background-color: #137f7f;
@@ -84,6 +92,22 @@ const handleCurrentChange = (val: number) => {
 
     .el-pagination {
       font-size: 18px;
+
+      :deep(.el-pager li.is-active) {
+        background-color: #137f7f;
+      }
+
+      :deep(.el-pager li:hover) {
+        color: #137f7f;
+      }
+
+      :deep(.el-input__wrapper.is-focus) {
+        box-shadow: 0 0 0 1px #137f7f !important;
+      }
+
+      :deep(.el-select .el-input.is-focus .el-input__wrapper) {
+        box-shadow: 0 0 0 1px #137f7f !important;
+      }
     }
   }
 }
