@@ -1,3 +1,4 @@
+import { ElMessage } from 'element-plus';
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from "axios"
 const request = axios.create({
   // 默认地址请求地址，可在 .env 开头文件中修改
@@ -33,6 +34,8 @@ request.interceptors.response.use(
     return res
   },
   (error: any) => {
+    ElMessage.error((error.message));
+
     return Promise.reject(error)
   }
 )

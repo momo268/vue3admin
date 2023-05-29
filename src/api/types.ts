@@ -11,3 +11,6 @@ export namespace Login {
     [key: string]: any
   }
 }
+
+export namespace Class {
+}

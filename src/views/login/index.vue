@@ -1,11 +1,7 @@
 <template>
   <div class="login-container">
-    <ThemeSwitch class="theme-switch" />
-    <div class="login-card">
-      <div class="title">
-        <img src="@/assets/layout/logo-text-2.png" />
-      </div>
-      <div class="content">
+    <div class="content">
+      <div class="form">
         <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" @keyup.enter="handleLogin">
           <el-form-item prop="username">
             <el-input v-model.trim="loginForm.username" placeholder="用户名" type="text" tabindex="1" :prefix-icon="User"
@@ -26,12 +22,10 @@
 import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 import { User, Lock } from "@element-plus/icons-vue"
-import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
 import { type FormInstance, FormRules, ElMessage } from "element-plus"
-// import { type ILoginRequestData } from "@/api/login/types/login"
 import Cookies from "js-cookie"
 import { login } from '@/api/user/index'
-import { Login } from "@/api/types"
+import { type Login } from "@/api/types"
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance | null>(null)
@@ -46,10 +40,7 @@ const loginForm = reactive({
 /** 登录表单校验规则 */
 const loginFormRules: FormRules = {
   username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [
-    { required: true, message: "请输入密码", trigger: "blur" },
-    { min: 3, max: 16, message: "长度在 3 到 16 个字符", trigger: "blur" }
-  ],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
 }
 /** 登录逻辑 */
 const handleLogin = async () => {
@@ -57,6 +48,7 @@ const handleLogin = async () => {
   console.log(res);
   if (res.code == 1) {
     Cookies.set('v3-admin-vite-token-key', 'token-admin')
+    ElMessage.success('登录成功')
     router.push({ path: "/" })
   } else {
     ElMessage.error(res.msg)
@@ -66,57 +58,51 @@ const handleLogin = async () => {
 
 <style lang="scss" scoped>
 .login-container {
+  /* min-width: 1450px; */
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 100%;
+  height: 100vh;
+  background: url('../../assets/img/背景.png');
+  background-size: 100% 100%;
 
-  .theme-switch {
-    position: fixed;
-    top: 5%;
-    right: 5%;
-    cursor: pointer;
-  }
+  .content {
+    margin-top: 10%;
+    width: 55%;
+    height: 500px;
+    background-image: url('../../assets/img/登录_03.png');
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 
-  .login-card {
-    width: 480px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px #dcdfe6;
-    background-color: #fff;
-    overflow: hidden;
+    .form {
+      width: 50%;
+      padding: 50px;
+      padding-right: 10%;
 
-    .title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 150px;
-
-      img {
-        height: 100%;
-      }
-    }
-
-    .content {
-      padding: 20px 50px 50px 50px;
-
-      :deep(.el-input-group__append) {
-        padding: 0;
-        overflow: hidden;
-
-        .el-image {
-          width: 100px;
-          height: 40px;
-          border-left: 0px;
-          user-select: none;
-          cursor: pointer;
-          text-align: center;
-        }
+      :deep(.el-input) {
+        height: 50px;
+        width: 95%;
       }
 
-      .el-button {
-        width: 100%;
-        margin-top: 10px;
+      :deep(.el-input:last-child) {
+        margin-top: 5%;
+      }
+
+      :deep(.el-button) {
+        width: 35%;
+        height: 50px;
+        margin-top: 15%;
+        background-color: #1b8c78;
+        margin-left: 30%;
+        font-size: 20px;
+        font-weight: bolder;
+      }
+
+      :deep(.el-input__wrapper.is-focus) {
+        box-shadow: 0 0 0 1px #1b8c78 inset;
       }
     }
   }

@@ -35,31 +35,35 @@ export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/",
     component: Layout,
-    redirect: "/dashboard",
+    redirect: "/createstudent",
+    name: "Student",
+    meta: {
+      title: "学员管理",
+      svgIcon: "user",
+    },
     children: [
       {
-        path: "dashboard",
-        component: () => import("@/views/dashboard/index.vue"),
-        name: "Dashboard",
+        path: "createstudent",
+        component: () => import("@/views/student/createstudent.vue"),
+        name: "createstudent",
         meta: {
-          title: "首页",
-          svgIcon: "dashboard",
-          // affix: true
+          title: "新建学员",
         }
       },
-    ]
-  },
-  {
-    path: "/student",
-    component: Layout,
-    children: [
       {
-        path: "index",
-        component: () => import("@/views/student/index.vue"),
-        name: "学生管理",
+        path: "revisestudent",
+        component: () => import("@/views/student/revisestudent.vue"),
+        name: "revisestudent",
         meta: {
-          title: "学生管理",
-          svgIcon: "user",
+          title: "修改学员信息"
+        }
+      },
+      {
+        path: "delstudent",
+        component: () => import("@/views/student/delstudent.vue"),
+        name: "delstudent",
+        meta: {
+          title: "删除学员"
         }
       }
     ]
@@ -67,14 +71,35 @@ export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/class",
     component: Layout,
+    redirect: "/class/createclass",
+    name: "Class",
+    meta: {
+      title: "班级管理",
+      svgIcon: "document",
+    },
     children: [
       {
-        path: "index",
-        component: () => import("@/views/class/index.vue"),
-        name: "班级管理",
+        path: "createclass",
+        component: () => import("@/views/class/createclass.vue"),
+        name: "createclass",
         meta: {
-          title: "班级管理",
-          svgIcon: "document",
+          title: "新建班级",
+        }
+      },
+      {
+        path: "reviseclass",
+        component: () => import("@/views/class/reviseclass.vue"),
+        name: "reviseclass",
+        meta: {
+          title: "修改班级信息"
+        }
+      },
+      {
+        path: "delclass",
+        component: () => import("@/views/class/delclass.vue"),
+        name: "delclass",
+        meta: {
+          title: "删除班级"
         }
       }
     ]
@@ -82,18 +107,16 @@ export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/statis",
     component: Layout,
+    redirect: "/statis/statispeople",
+    name: "Statis",
+    meta: {
+      title: "培训统计",
+      svgIcon: "piechart",
+    },
     children: [
-      {
-        path: "index",
-        component: () => import("@/views/statis/index.vue"),
-        name: "统计分析",
-        meta: {
-          title: "统计分析",
-          svgIcon: "piechart",
-        }
-      }
+
     ]
-  }
+  },
 ]
 
 /**
@@ -102,37 +125,37 @@ export const constantRoutes: RouteRecordRaw[] = [
  * 必须带有 Name 属性
  */
 export const asyncRoutes: RouteRecordRaw[] = [
-  {
-    path: "/permission",
-    component: Layout,
-    redirect: "/permission/page",
-    name: "Permission",
-    meta: {
-      title: "权限管理",
-      svgIcon: "lock",
-      roles: ["admin", "editor"], // 可以在根路由中设置角色
-      alwaysShow: true // 将始终显示根菜单
-    },
-    children: [
-      {
-        path: "page",
-        component: () => import("@/views/permission/page.vue"),
-        name: "PagePermission",
-        meta: {
-          title: "页面权限",
-          roles: ["admin"] // 或者在子导航中设置角色
-        }
-      },
-      {
-        path: "directive",
-        component: () => import("@/views/permission/directive.vue"),
-        name: "DirectivePermission",
-        meta: {
-          title: "指令权限" // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
-        }
-      }
-    ]
-  },
+  // {
+  //   path: "/permission",
+  //   component: Layout,
+  //   redirect: "/permission/page",
+  //   name: "Permission",
+  //   meta: {
+  //     title: "权限管理",
+  //     svgIcon: "lock",
+  //     roles: ["admin", "editor"], // 可以在根路由中设置角色
+  //     alwaysShow: true // 将始终显示根菜单
+  //   },
+  //   children: [
+  //     {
+  //       path: "page",
+  //       component: () => import("@/views/permission/page.vue"),
+  //       name: "PagePermission",
+  //       meta: {
+  //         title: "页面权限",
+  //         roles: ["admin"] // 或者在子导航中设置角色
+  //       }
+  //     },
+  //     {
+  //       path: "directive",
+  //       component: () => import("@/views/permission/directive.vue"),
+  //       name: "DirectivePermission",
+  //       meta: {
+  //         title: "指令权限" // 如果未设置角色，则表示：该页面不需要权限，但会继承根路由的角色
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: "/:pathMatch(.*)*", // Must put the 'ErrorPage' route at the end, 必须将 'ErrorPage' 路由放在最后
     redirect: "/404",

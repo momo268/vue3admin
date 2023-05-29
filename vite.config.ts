@@ -35,7 +35,7 @@ export default defineConfig({
     cors: true, //为开发服务器配置 CORS , 默认启用并允许任何源,允许其他资源访问到
     proxy: {    // 跨域代理
       '/api': {  // 匹配/api的url地址
-        target: "http://192.168.1.126:8088/api", // 目标地址
+        target: "http://192.168.1.152:8088/api", // 目标地址
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

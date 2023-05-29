@@ -42,7 +42,7 @@ const isCollapse = computed(() => {
 const color = {
   bgc: "#fff",
   textcolor: "#333",
-  activetextcolor: "#009688"
+  activetextcolor: "#41a79e"
 }
 </script>
 
