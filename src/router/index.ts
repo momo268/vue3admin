@@ -107,14 +107,29 @@ export const constantRoutes: RouteRecordRaw[] = [
   {
     path: "/statis",
     component: Layout,
-    redirect: "/statis/statispeople",
+    redirect: "/statis/peopletable",
     name: "Statis",
     meta: {
       title: "培训统计",
       svgIcon: "piechart",
     },
     children: [
-
+      {
+        path: "peopletable",
+        component: () => import("@/views/statis/peopletable.vue"),
+        name: "peopletable",
+        meta: {
+          title: "按人员统计"
+        }
+      },
+      {
+        path: "timetable",
+        component: () => import("@/views/statis/timetable.vue"),
+        name: "timetable",
+        meta: {
+          title: "按时间统计"
+        }
+      }
     ]
   },
 ]

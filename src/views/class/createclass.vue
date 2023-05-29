@@ -31,7 +31,7 @@ const getiptval = (val: any) => {
   console.log(val);
 }
 onBeforeMount(() => {
-  getclass()
+  // getclass()
 })
 const btnname = ref("新建")
 const title = ref("新建班级")
