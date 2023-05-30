@@ -87,7 +87,7 @@ const handleCurrentChange = (val: number) => {
   .foot {
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: -20px;
     padding-right: 5%;
 
     .el-pagination {

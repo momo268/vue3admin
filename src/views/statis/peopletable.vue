@@ -115,11 +115,27 @@ const handleCurrentChange = (val: number) => {
   .foot {
     position: absolute;
     right: 0;
-    bottom: 0;
+    bottom: -20px;
     padding-right: 5%;
 
     .el-pagination {
       font-size: 18px;
+
+      :deep(.el-pager li.is-active) {
+        background-color: #137f7f;
+      }
+
+      :deep(.el-pager li:hover) {
+        color: #137f7f;
+      }
+
+      :deep(.el-input__wrapper.is-focus) {
+        box-shadow: 0 0 0 1px #137f7f !important;
+      }
+
+      :deep(.el-select .el-input.is-focus .el-input__wrapper) {
+        box-shadow: 0 0 0 1px #137f7f !important;
+      }
     }
   }
 }
